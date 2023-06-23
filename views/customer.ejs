@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Property Management</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.ico">
+    <!-- Font Awesome CDN link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- Custom CSS file link  -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header section starts  -->
+    <header>
+        <a href="#" class="logo" style="text-decoration: none;">
+            <span>Atlas</span> Real Estate
+        </a>
+        <nav class="navbar">
+            <form action="/logout" method="GET" class="d-inline">
+                <button type="submit" class="btn btn-outline-primary custom-button">Logout</button>
+            </form>
+            <style>
+                .custom-button {
+                    background-color: #3b4fe6;
+                    border-color: white;
+                    color: white;
+                    padding: 5px 10px;
+                    font-size: 14px;
+                    margin-top: -5px;
+                }
+                .custom-button:hover {
+                    color: #3b4fe6;
+                    background-color: #fffff0;
+                }
+            </style>
+        </nav>
+    </header>
+    <section style="margin-top: 100px;">
+        <style>
+          .post-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+          }
+      
+          .post-card img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+          }
+      
+          .post-card .post-details h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+          }
+      
+          .post-card .post-details p {
+            margin-bottom: 5px;
+          }
+      
+          .post-card .post-buttons button {
+            margin-right: 10px;
+          }
+      
+          .comments-section {
+            display: none;
+            margin-top: 10px;
+          }
+      
+          .comments-section.active {
+            display: block;
+          }
+      
+          .comments-section textarea {
+            width: 100%;
+            height: 60px;
+            padding: 5px;
+            margin-top: 10px;
+          }
+      
+          .comment {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+          }
+      
+          .comment-username {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+        </style>
+      
+        <div class="container">
+          <div class="row">
+            <% properties.forEach(function(property) { %>
+              <div class="col-md-6">
+                <div class="post-card">
+                  <img src="<%= property.photos %>" alt="Property Image">
+                  <div class="post-details">
+                    <h2><%= property.propertyName %></h2>
+                    <p>Type: <%= property.type %></p>
+                    <p>Location: <%= property.location %></p>
+                    <p>Bedrooms: <%= property.bedrooms %></p>
+                    <p>Bathrooms: <%= property.bathrooms %></p>
+                    <p>Description: <%= property.description %></p>
+                    <p>Cost: $<%= property.cost %></p>
+                    <p>Created at: <%= property.created_at %></p>
+                  </div>
+                  <div class="post-buttons">
+                    <style>
+                      .comment-icon {
+                        font-size: 16px;
+                        vertical-align: middle;
+                        margin-right: 5px;
+                      }
+                    </style>
+                    <hr>
+                    <button class="like-button" id="like-button-<%= property.id %>"><i class="far fa-thumbs-up me-2"></i> Like</button>
+                    <button class="comment-button" id="but" onclick="toggleComments(event)"><i class="far fa-comment-dots me-2"></i> 
+                      Comment
+                    </button>
+                    <button class="lease-button" id="but">Lease</button>
+                    <button class="pay-button" id="but">Pay</button>
+                  </div>
+                  <div class="comments-section" id="comments-section-<%= property.id %>">
+                    <form id="comment-form-<%= property.id %>" onsubmit="postComment(event, '<%= property.id %>')">
+                      <textarea class="comment-input" placeholder="Write a comment" name="commentText"></textarea>
+                      <button type="submit" class="post-comment-button" id="but">Post Comment</button>
+                    </form>
+                    <div id="comments-container-<%= property.id %>">
+                      <% if (property.comments && property.comments.length > 0) { %>
+                        <% property.comments.forEach(function(comment) { %>
+                          <div class="comment">
+                            <p><span class="comment-username"><%= comment.username %></span><%= comment.comment_text %></p>
+                          </div>
+                        <% }); %>
+                      <% } else { %>
+                        <p>No comments yet.</p>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="like-count" id="like-count-<%= property.id %>"><%= property.likes %></div>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+    </section>
+      
+    <section>
+        <div class="credit">
+            <span>Atlas Property Management</span> | all rights reserved!
+        </div>
+    </section>
+    <!-- Include jQuery library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      // Function to toggle the comments section
+      function toggleComments(event) {
+        const commentsSection = event.target.closest('.post-card').querySelector('.comments-section');
+        commentsSection.classList.toggle('active');
+      }
+
+      // Function to handle comment submission
+      function postComment(event, propertyId) {
+        event.preventDefault();
+        const commentInput = document.querySelector(`#comment-form-${propertyId} .comment-input`);
+        const commentText = commentInput.value.trim();
+
+        // Clear the comment input
+        commentInput.value = '';
+
+        // Add the comment to the comments container on the client-side
+        const commentsContainer = document.querySelector(`#comments-container-${propertyId}`);
+        const comment = document.createElement('div');
+        comment.classList.add('comment');
+        comment.innerHTML = `<p><span class="comment-username">You</span>${commentText}</p>`;
+        commentsContainer.prepend(comment);
+      }
+
+      // Function to handle like button click
+      $('.like-button').click(function(event) {
+        const propertyId = event.target.id.split('-')[2];
+
+        // Send an AJAX request to update the likes count on the server-side
+        $.ajax({
+          url: `customer/like/${propertyId}`,
+          method: 'PUT',
+          success: function(data) {
+            // Update the likes count on the client-side
+            const likeCountElement = document.querySelector(`#like-count-${propertyId}`);
+            likeCountElement.innerText = data.likes;
+          }
+        });
+      });
+    </script>
+</body>
+</html>

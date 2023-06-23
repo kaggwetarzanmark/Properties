@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Property Management</title>
+
+    <link rel="shortcut icon" type="image/png" href="images/favicon.ico">
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+    <header>
+        <a href="#" class="logo" style="text-decoration: none;"> <span>Atlas
+            </span>Real Estate</a>
+        <nav class="navbar">
+            <a href="landlord" style="text-decoration: none;">add property</a>
+            <a href="landlordview" style="text-decoration: none;">browse Your
+                Property</a>
+                <form action="/logout" method="GET" class="d-inline">
+                  <button type="submit" class="btn btn-outline-primary custom-button">Logout</button>
+              </form>
+            <style>
+                .custom-button {
+                    background-color: #3b4fe6;
+                    border-color: white;
+                    color: white;
+                    padding: 5px 10px;
+                    font-size: 14px;
+                    margin-top: -5px;
+                }
+
+                .custom-button:hover {
+                    color: #3b4fe6;
+                }
+            </style>
+        </nav>
+    </header>
+
+    <section class="section" style="margin-top: 100px;">
+        <div class="row">
+            <% properties.forEach((property, index) => { %>
+            <div class="col-md-4">
+                <div class="card custom-card">
+                    <img src="<%= property.photos %>"
+                        class="card-img-top" alt="Property Image">
+                    <div class="card-body">
+                        <form id="form<%= index %>"
+                            action="/update-property/<%= property.propertyId %>"
+                            method="POST">
+                            <h5 class="card-title">
+                                <%= property.propertyName %>
+                            </h5>
+                            <p class="card-text">
+                                Type: <input class="card-input" type="text"
+                                    name="type"
+                                    value="<%= property.type %>"
+                                    required><br>
+                                Location: <input class="card-input" type="text"
+                                    name="location"
+                                    value="<%= property.location %>"
+                                    required><br>
+                                Bedrooms: <input class="card-input"
+                                    type="number" name="bedrooms"
+                                    value="<%= property.bedrooms %>"
+                                    required><br>
+                                Bathrooms: <input class="card-input"
+                                    type="number" name="bathrooms"
+                                    value="<%= property.bathrooms %>"
+                                    required><br>
+                                Description: <input class="card-input"
+                                    type="text" name="description"
+                                    value="<%= property.description %>"
+                                    required><br>
+                                Cost: UGX.<input class="card-input" type="number"
+                                    name="cost"
+                                    value="<%= property.cost %>"
+                                    required><br>
+                                Created On:
+                                <%= property.created_at %><br>
+                                status: <span
+                                    class="card-placeholder editable<%= property.approved ? 'approved' : '' %>">
+                                    <%= property.approved %>
+                                </span><br>
+                            </p>
+                            <div style="margin-top: 10px; text-align: center;">
+                                <button class="btn btn-primary modify-button"
+                                    type="button"
+                                    style="background-color: #3b4fe6; color: white; margin: 5px; padding: 5px 10px; font-size: 12px;">Modify</button>
+                                <button class="btn btn-primary save-button"
+                                    type="submit"
+                                    style="background-color: #3b4fe6; color: white; margin: 5px; padding: 5px 10px; font-size: 12px; display: none;">Save
+                                    Changes</button>
+                                <button class="btn btn-danger delete-button"
+                                    type="button"
+                                    style="background-color: #3b4fe6; color: white; margin: 5px; padding: 5px 10px; font-size: 12px;">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </section>
+
+    <section>
+        <div class="credit"> <span> Atlas Property Management</span> | all
+            rights reserved! </div>
+    </section>
+
+    <!-- Include jQuery library -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(".modify-button").click(function() {
+                var placeholders = $(this).closest(".card-body")
+                    .find(".card-input");
+                var approvedField = $(this).closest("form")
+                    .find(".card-placeholder.approved");
+
+                placeholders.prop("disabled", false);
+                placeholders.css("border", "1px solid #ccc");
+                placeholders.css("background-color", "#f9f9f9");
+
+                approvedField.attr("contenteditable", "false");
+                approvedField.css("border", "none");
+                approvedField.css("background-color",
+                    "transparent");
+
+                $(this).hide();
+                $(this).siblings(".save-button").show();
+            });
+
+            $(".delete-button").click(function() {
+                var form = $(this).closest("form");
+                if (confirm(
+                        "Are you sure you want to delete this property?"
+                        )) {
+                    var propertyName = form.find(".card-title")
+                        .text().trim();
+                    $.ajax({
+                        url: "/delete-property",
+                        method: "POST",
+                        data: {
+                            propertyName: propertyName
+                        },
+                        success: function(response) {
+                            console.log(
+                                "Row deleted successfully"
+                                );
+                            // Perform any necessary UI updates here
+                            form.closest(
+                                    ".col-md-3")
+                                .remove(); // Remove the deleted card from the UI
+                        },
+                        error: function(xhr, status,
+                            error) {
+                            console.error(
+                                "Error deleting row:",
+                                error);
+                            // Perform any necessary error handling or UI updates here
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

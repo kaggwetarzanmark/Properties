@@ -12,7 +12,7 @@ function renderRegisterPage(req, res) {
 // Handle the POST request for registration
 async function registerUser(req, res) {
   try {
-    const { username, name, user_type, password, email } = req.body;
+    const { username, user_type, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const querySelect =
@@ -34,8 +34,8 @@ async function registerUser(req, res) {
           res.redirect("/register");
         } else {
           const queryInsert =
-            "INSERT INTO users (name, username, email, password, user_type) VALUES (?, ?, ?, ?, ?)";
-          const valuesInsert = [name, username, email, hashedPassword, user_type];
+  "INSERT INTO users (username, email, password, user_type) VALUES (?, ?, ?, ?)";
+const valuesInsert = [username, email, hashedPassword, user_type];
 
           connection.query(queryInsert, valuesInsert, (insertError, insertResults) => {
             if (insertError) {
@@ -45,7 +45,7 @@ async function registerUser(req, res) {
             } else {
               console.log("User registered successfully");
               req.flash("success", "User registered successfully");
-              res.redirect("/login");
+              res.redirect("/");
             }
           });
         }

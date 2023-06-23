@@ -2923,8 +2923,8 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #6777EF;
-  border-color: #6777EF;
+  background-color: #ff5a3c;
+  border-color: #ff5a3c;
   -webkit-box-shadow: 0 0.125rem 0.25rem 0 rgba(58, 59, 69, 0.2) !important;
   box-shadow: 0 0.125rem 0.25rem 0 rgba(58, 59, 69, 0.2) !important;
   border-radius: 0.25rem;
@@ -2932,8 +2932,8 @@ fieldset:disabled a.btn {
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #394EEA;
-  border-color: #394EEA;
+  background-color: #ff5a3c;
+  border-color: #ff5a3c;
 }
 
 .btn-primary:focus,

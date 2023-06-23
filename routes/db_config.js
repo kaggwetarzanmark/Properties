@@ -6,7 +6,7 @@ function createConnection() {
     host: 'localhost',
     user: 'root',
     password: '12345678',
-    database: 'tarzan'
+    database: 'project'
   });
 
   connection.connect(function(err) {

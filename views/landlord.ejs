@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Property Management</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.ico">
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- header section starts  -->
+    <header>
+        <a href="#" class="logo" style="text-decoration: none;"> <span>Atlas
+            </span>Real Estate</a>
+        <nav class="navbar">
+            <a href="landlord" style="text-decoration: none;">add property</a>
+            <a href="landlordview" style="text-decoration: none;">browse Your
+                Property</a>
+                <form action="/logout" method="GET" class="d-inline">
+                  <button type="submit" class="btn btn-outline-primary custom-button">Logout</button>
+              </form>
+            <style>
+                .custom-button {
+                    background-color: #3b4fe6;
+                    border-color: white;
+                    color: white;
+                    padding: 5px 10px;
+                    font-size: 14px;
+                    margin-top: -5px;
+                }
+                .custom-button:hover {
+                    color: #3b4fe6;
+                }
+            </style>
+        </nav>
+    </header>
+    </head>
+    <body>
+        <section style="margin-top: 100px;" ,>
+            <style>
+                .form-label-indent {
+                    text-indent: 1.5rem;
+                }
+            </style>
+            <div class="card text-center">
+                <div class="row">
+                    <div class="col-sm-12 mx-auto">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h5 class="card-title">ADD PROPERTY</h5>
+                                        <form method="POST" action="/landlord"
+                                            enctype="multipart/form-data">
+                                            <div class="form-group row">
+                                                <label for="propertyName"
+                                                    class="col-sm-3 col-form-label form-label-indent">Property
+                                                    Name</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text"
+                                                        class="form-control"
+                                                        id="propertyName"
+                                                        name="propertyName"
+                                                        placeholder="Enter property name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="propertyType"
+                                                    class="col-sm-3 col-form-label form-label-indent">Property
+                                                    Type</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text"
+                                                        class="form-control"
+                                                        id="propertyType"
+                                                        name="Type"
+                                                        placeholder="Enter property type">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="location"
+                                                    class="col-sm-3 col-form-label form-label-indent">Location</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text"
+                                                        class="form-control"
+                                                        id="location"
+                                                        name="location"
+                                                        placeholder="Enter location">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="bedrooms"
+                                                    class="col-sm-3 col-form-label form-label-indent">Number
+                                                    of Bedrooms</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number"
+                                                        class="form-control"
+                                                        id="bedrooms"
+                                                        name="bedrooms"
+                                                        placeholder="Enter number of bedrooms">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="bathrooms"
+                                                    class="col-sm-3 col-form-label form-label-indent">Number
+                                                    of Bathrooms</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number"
+                                                        class="form-control"
+                                                        id="bathrooms"
+                                                        name="bathrooms"
+                                                        placeholder="Enter number of bathrooms">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="description"
+                                                    class="col-sm-3 col-form-label form-label-indent">Description</label>
+                                                <div class="col-sm-9">
+                                                    <textarea
+                                                        class="form-control"
+                                                        id="description"
+                                                        name="description"
+                                                        rows="3"
+                                                        placeholder="Enter property description"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="cost"
+                                                    class="col-sm-3 col-form-label form-label-indent">Cost</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text"
+                                                        class="form-control"
+                                                        id="cost" name="cost"
+                                                        placeholder="Enter property cost">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="created_at"
+                                                    class="col-sm-3 col-form-label form-label-indent">Created
+                                                    At:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="datetime-local"
+                                                        class="form-control"
+                                                        id="created_at"
+                                                        name="created_at"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="photos"
+                                                    class="col-sm-3 col-form-label form-label-indent">Upload
+                                                    Photos</label>
+                                                <div class="col-sm-9">
+                                                    <input type="file"
+                                                        class="form-control-file"
+                                                        id="photos"
+                                                        name="photos">
+                                                </div>
+                                            </div>
+                                            <style>
+                                                .btn-primary {
+                                                    background-color: #3b4fe6;
+                                                    color: white;
+                                                    transition: background-color 0.3s ease;
+                                                }
+                                                .btn-primary:hover {
+                                                    background-color: #162ddb;
+                                                }
+                                            </style>
+                                            <button type="submit"
+                                                class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="credit"> <span> Atlas Property Management</span> | all
+                rights reserved! </div>
+        </section>
+    </body>
+</html>
